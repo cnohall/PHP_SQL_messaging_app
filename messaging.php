@@ -40,11 +40,10 @@
  } 
 
  try {
-    $messagesql = 'SELECT * FROM messages';
+    $messagesql = 'SELECT message, writer, timewritten FROM messages';
     $stmt  = $connect->prepare($messagesql);
     $stmt->execute();
-    $result = $stmt->fetchAll();
-    $messages = json_encode($result);
+    $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
  }
  catch(PDOException $error)  
  {  
@@ -58,21 +57,33 @@
       <head>  
            <title>Nohall Solutions</title>  
            <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>  
-           <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />  
-           <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
       </head>  
       <body>  
            <br />  
            <div class="container" style="width:80wv;">  
-                <h2>Meddelanden</h2><br />  
+                <h2>Meddelanden</h2><br />
+                <table class="table table-striped">
+                <thead>
+                     <tr>
+                          <th>Skrivet av</th>
+                          <th>Meddelande</th>
+                          <th>Tidpunkt skrivet</th>
+                     </tr>
+               </thead>
+ 
                <?php 
-                     if(isset($messages))  
+               if(isset($messages))  
                 {  
-                    echo $messages;;  
+                    foreach ($messages as $row){ 
+                         echo "<tr><td>".$row["writer"]."</td><td>".$row["message"]."</td><td>".$row["timewritten"]."</td></tr>";
+                    } 
                 } 
-                ?>  
+                ?>
+               </table>   
                 <form method="post">  
-                     <input type="text" name="message" class="form-control" />  
+                     <textarea type="text" name="message" class="form-control" rows="5" id="comment"></textarea>
                      <br />  
                      <input type="submit" name="postmessage" class="btn btn-info" value="Skapa inlägg" />  
                 </form>
