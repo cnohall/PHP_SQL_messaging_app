@@ -6,5 +6,6 @@ The databasename should be "mysql".
 It should contain 2 tables: "accounts" and "messages"
 
 The accounts table should contain: firstname, lastname, email, phone, password.
+
 The messages table should contain: message, writer, timewritten.
 
