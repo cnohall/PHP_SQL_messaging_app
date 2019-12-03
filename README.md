@@ -3,9 +3,9 @@ This is a messaging app that's written in PHP and that utilizes a mysql to creat
 
 The databasename should be "mysql".
 
-It should contain 2 tables: "accounts" and "messages"
+It should contain 2 tables: 'accounts' and 'messages'
 
-SQL for first table: 
+SQL to create the 'accounts' table: 
 ```SQL
 CREATE TABLE accounts (
     id int NOT NULL AUTO_INCREMENT,
@@ -18,5 +18,13 @@ CREATE TABLE accounts (
     PRIMARY KEY (id)
 );
 ```
-The messages table should contain: message, writer, timewritten.
-
+SQL to create the 'messages' table:
+```SQL
+CREATE TABLE messages (
+    id int NOT NULL AUTO_INCREMENT,
+    message varchar(255) NOT NULL,
+    writer varchar(255),
+    timewritten date(255),
+    PRIMARY KEY (id)
+);
+```
