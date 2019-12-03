@@ -24,7 +24,7 @@ CREATE TABLE messages (
     id int NOT NULL AUTO_INCREMENT,
     message varchar(255) NOT NULL,
     writer varchar(255),
-    timewritten date(255),
+    timewritten timewritten(255),
     PRIMARY KEY (id)
 );
 ```
