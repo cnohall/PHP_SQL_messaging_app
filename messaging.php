@@ -16,10 +16,10 @@ try
      {  
           if(empty($_POST["message"]) )  
           {  
-               $messageInfo = '<label>Du måste skriva något innan du kan skapa inlägget</label>';  
+               $messageInfo = '<h2><span class="badge badge-warning"> Du måste skriva något innan du kan skapa inlägget </span></h2>';  
           } else { 
                if($_POST['message'] != strip_tags($_POST['message'])) {
-                    $messageInfo = "Sluta skriva html i chatten!";
+                    $messageInfo = '<h2><span class="badge badge-danger"> Sluta skriva html i chatten! </span></h2>';
                 } else {
                     $message = $_POST['message'];
                     $writer = $_SESSION["username"];
@@ -30,9 +30,9 @@ try
                     $result = $stmtinsert->execute([$message, $writer, $timewritten]);
                     
                     if($result){
-                         $messageInfo = "Meddelandet postat";
+                         $messageInfo = '<h2><span class="badge badge-success"> Meddelandet postat </span></h2>Meddelandet postat';
                     } else {
-                         $messageInfo = "Ett problem uppstod när meddelandet skulle skapas";
+                         $messageInfo = '<h2><span class="badge badge-warning"> Ett problem uppstod när meddelandet skulle skapas </span></h2>';
                     } 
                 }
           } 
@@ -92,7 +92,7 @@ catch(PDOException $error)
           <?php 
           if(isset($messageInfo))  
           {  
-               echo '<h2><span class="badge badge-dark">'.$messageInfo.'</span></h2>';  
+               echo $messageInfo;  
           } 
           ?>   
                <form method="post">  
