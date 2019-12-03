@@ -6,7 +6,7 @@ The databasename should be "mysql".
 It should contain 2 tables: "accounts" and "messages"
 
 SQL for first table: 
-´´´
+```SQL
 CREATE TABLE accounts (
     id int NOT NULL AUTO_INCREMENT,
     firstname varchar(255) NOT NULL,
@@ -17,6 +17,6 @@ CREATE TABLE accounts (
     phone int(20),
     PRIMARY KEY (id)
 );
-´´´
+```
 The messages table should contain: message, writer, timewritten.
 
