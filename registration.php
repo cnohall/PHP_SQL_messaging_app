@@ -31,8 +31,6 @@ if(isset($_POST['create'])){
     <?php include 'bootstrap.php'; ?>  
     <title>Skapa Konto | PHP</title>
 </head>
-
-
 <body>
     <div class="row">
         <div class="col-sm-3">

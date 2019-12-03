@@ -2,21 +2,24 @@
 require_once('config.php');
 session_start(); 
 
+$welcomeMessage = "";
+$messageInfo = "";
+
 if(isset($_SESSION["username"])) {
-     echo '<h3>Välkommen - '.$_SESSION["username"]. '</h3>';  
+     $welcomeMessage = '<h3>Välkommen - '.$_SESSION["username"]. '</h3>';  
 }
 
-$warningMessage = "";
+
 try  
 {  
      if(isset($_POST["postmessage"]))  
      {  
           if(empty($_POST["message"]) )  
           {  
-               $warningMessage = '<label>Du måste skriva något innan du kan skapa inlägget</label>';  
+               $messageInfo = '<label>Du måste skriva något innan du kan skapa inlägget</label>';  
           } else { 
                if($_POST['message'] != strip_tags($_POST['message'])) {
-                    $warningMessage = "Sluta skriva html i chatten!";
+                    $messageInfo = "Sluta skriva html i chatten!";
                 } else {
                     $message = $_POST['message'];
                     $writer = $_SESSION["username"];
@@ -27,9 +30,9 @@ try
                     $result = $stmtinsert->execute([$message, $writer, $timewritten]);
                     
                     if($result){
-                         echo "Meddelandet postat";
+                         $messageInfo = "Meddelandet postat";
                     } else {
-                         echo "Ett problem uppstod när meddelandet skulle skapas";
+                         $messageInfo = "Ett problem uppstod när meddelandet skulle skapas";
                     } 
                 }
           } 
@@ -49,7 +52,7 @@ try {
 }
 catch(PDOException $error)  
 {  
-     $warningMessage = $error->getMessage();  
+     $messageInfo = $error->getMessage();  
 } 
 
 ?>
@@ -60,7 +63,12 @@ catch(PDOException $error)
           <title>Skriv Meddelanden</title>  
           <?php include 'bootstrap.php'; ?>  
      </head>  
-     <body>  
+     <body>
+          <?php 
+          if(isset($welcomeMessage)) {  
+               echo $welcomeMessage;
+          } 
+          ?>  
           <br />  
           <div class="container" style="width:80wv;">  
                <h2>Meddelanden</h2><br />
@@ -80,18 +88,19 @@ catch(PDOException $error)
                     } 
                } 
           ?>
-          </table>   
+          </table>
+          <?php 
+          if(isset($messageInfo))  
+          {  
+               echo '<h2><span class="badge badge-dark">'.$messageInfo.'</span></h2>';  
+          } 
+          ?>   
                <form method="post">  
                     <textarea type="text" name="message" class="form-control" rows="5" id="comment"></textarea>
                     <br />  
                     <input type="submit" name="postmessage" class="btn btn-info" value="Skapa inlägg" />  
                </form>
-               <?php  
-               if(isset($warningMessage))  
-               {  
-                    echo '<label class="text-danger">'.$warningMessage.'</label>';  
-               }  
-               ?>    
+   
                <br /><br /><a href="logout.php">Logga ut</a>
           </div>  
           <br /> 

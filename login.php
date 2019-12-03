@@ -1,8 +1,8 @@
 <?php  
  session_start();  
  require_once('config.php');
- $message = "";
  $accountCreated = "";
+ $warningMessage = "";
  if($_GET){
      $accountCreated = $_GET['accountCreatedMessage'];    
  }
@@ -12,7 +12,7 @@
       {  
           if(empty($_POST["username"]) || empty($_POST["password"]))  
           {  
-               $message = '<label>All fields are required</label>';  
+               $warningMessage = 'Var vänlig fyll i både användarnamn och lösenord';  
           }  
           else  
           {  
@@ -22,14 +22,14 @@
                     header("location:login_success.php");  
                }
                else {
-                    echo "Fel lösenord eller användarnamn";
+                    $warningMessage = "Fel lösenord eller användarnamn";
                }
           }  
      }  
 }  
  catch(PDOException $error)  
  {  
-      $message = $error->getMessage();  
+      $warningMessage = $error->getMessage();  
  }  
 
  function getDBpassword($connect, $username) {
@@ -62,10 +62,10 @@
                {  
                     echo '<h2><span class="badge badge-success">'.$accountCreated.'</span></h2>';  
                }    
-               if(isset($message))  
+               if(isset($warningMessage))  
                {  
-                    echo '<label class="text-danger">'.$message.'</label>';  
-               }  
+                    echo '<label class="text-danger">'.$warningMessage.'</label>';  
+               }
                 ?>  
                 <h2>Logga in</h2><br />  
                 <form method="post">  
