@@ -2,7 +2,10 @@
  session_start();  
  require_once('config.php');
  $message = "";
-
+ $accountCreated = "";
+ if($_GET){
+     $accountCreated = $_GET['accountCreatedMessage'];    
+ }
  try  
  {  
       if(isset($_POST["login"]))  
@@ -48,19 +51,21 @@
  <!DOCTYPE html>  
  <html>  
       <head>  
-          <title>Nohall Solutions</title>  
-          <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>  
-          <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-          <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+          <title>Logga in</title>
+          <?php include 'bootstrap.php'; ?>  
       </head>  
       <body>  
            <br />  
            <div class="container" style="width:500px;">  
-                <?php  
-                if(isset($message))  
-                {  
-                     echo '<label class="text-danger">'.$message.'</label>';  
-                }  
+                <?php
+               if(isset($accountCreated))  
+               {  
+                    echo '<h2><span class="badge badge-success">'.$accountCreated.'</span></h2>';  
+               }    
+               if(isset($message))  
+               {  
+                    echo '<label class="text-danger">'.$message.'</label>';  
+               }  
                 ?>  
                 <h2>Logga in</h2><br />  
                 <form method="post">  

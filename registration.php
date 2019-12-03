@@ -2,6 +2,7 @@
 
 require_once('config.php');
 
+
 if(isset($_POST['create'])){
     $firstname = $_POST['firstname'];
     $lastname = $_POST['lastname'];
@@ -15,8 +16,8 @@ if(isset($_POST['create'])){
     $stmtinsert = $connect->prepare($sql);
     $result = $stmtinsert->execute([$firstname, $lastname, $username, $email, $phone, $hashedPassword]);
     if($result){
-        echo "Användarkonto skapat";
-        header("location:login.php");  
+        $accountCreatedMessage = "Användarkonto skapat"; 
+        header("Location:login.php?accountCreatedMessage=".$accountCreatedMessage);
     } else {
         echo "Ett problem uppstod när användarkontot skulle skapas";
     }
@@ -27,12 +28,7 @@ if(isset($_POST['create'])){
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>  
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <?php include 'bootstrap.php'; ?>  
     <title>Skapa Konto | PHP</title>
 </head>
 
