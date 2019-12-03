@@ -3,8 +3,8 @@
 require_once('config.php');
 session_start(); 
 
-if(isset($_SESSION["email"])) {
-     echo '<h3>Välkommen - '.$_SESSION["email"]. '</h3>';  
+if(isset($_SESSION["username"])) {
+     echo '<h3>Välkommen - '.$_SESSION["username"]. '</h3>';  
 }
 
 $warningMessage = "";
@@ -17,7 +17,7 @@ try
                $warningMessage = '<label>Du måste skriva något innan du kan skapa inlägget</label>';  
           } else { 
                $message = $_POST['message'];
-               $writer = $_SESSION["email"];
+               $writer = $_SESSION["username"];
                $timewritten = date('Y-m-d H:i:s');
 
                $sql = 'INSERT INTO messages (message, writer, timewritten) VALUES(?,?,?)';

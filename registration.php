@@ -5,13 +5,15 @@ require_once('config.php');
 if(isset($_POST['create'])){
     $firstname = $_POST['firstname'];
     $lastname = $_POST['lastname'];
+    $username = $_POST['username'];
     $email = $_POST['email'];
     $phone = $_POST['phone'];
     $password = $_POST['password'];
+    $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
-    $sql = 'INSERT INTO accounts (firstname, lastname, email, phone, password) VALUES(?,?,?,?,?)';
+    $sql = 'INSERT INTO accounts (firstname, lastname, username, email, phone, password) VALUES(?,?,?,?,?,?)';
     $stmtinsert = $connect->prepare($sql);
-    $result = $stmtinsert->execute([$firstname, $lastname, $email, $phone, $password]);
+    $result = $stmtinsert->execute([$firstname, $lastname, $username, $email, $phone, $hashedPassword]);
     if($result){
         echo "Användarkonto skapat";
         header("location:login.php");  
@@ -48,6 +50,10 @@ if(isset($_POST['create'])){
 
                     <label for="lastname"><b>Efternamn</b></label>
                     <input class="form-control" type="text" name="lastname" required>
+
+                    
+                    <label for="username"><b>Användarnamn</b></label>
+                    <input class="form-control" type="text" name="username" required>
 
                     <label for="email"><b>E-post</b></label>
                     <input class="form-control" type="email" name="email" required>

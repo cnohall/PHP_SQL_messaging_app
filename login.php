@@ -7,37 +7,43 @@
  {  
       if(isset($_POST["login"]))  
       {  
-           if(empty($_POST["email"]) || empty($_POST["password"]))  
-           {  
-                $message = '<label>All fields are required</label>';  
-           }  
-           else  
-           {  
-                $query = "SELECT * FROM accounts WHERE email = :email AND password = :password";  
-                $statement = $connect->prepare($query);  
-                $statement->execute(  
-                     array(  
-                          'email'     =>     $_POST["email"],  
-                          'password'  =>     $_POST["password"], 
-                     )  
-                );  
-                $count = $statement->rowCount();  
-                if($count > 0)  
-                {  
-                     $_SESSION["email"] = $_POST["email"];
-                     header("location:login_success.php");  
-                }  
-                else  
-                {  
-                     $message = '<label>Wrong Data</label>';  
-                }  
-           }  
-      }  
- }  
+          if(empty($_POST["username"]) || empty($_POST["password"]))  
+          {  
+               $message = '<label>All fields are required</label>';  
+          }  
+          else  
+          {  
+               $db_password = getDBpassword($connect, $_POST["username"]);
+               if (password_verify($_POST['password'], $db_password)) {
+                    $_SESSION["username"] = $_POST["username"];
+                    header("location:login_success.php");  
+               }
+               else {
+                    echo "Fel lösenord eller användarnamn";
+               }
+          }  
+     }  
+}  
  catch(PDOException $error)  
  {  
       $message = $error->getMessage();  
  }  
+
+ function getDBpassword($connect, $username) {
+     try {
+          $sql = "SELECT password FROM accounts WHERE username='".$username."'";
+          $stmt  = $connect->prepare($sql);
+          $stmt->execute();
+          $result= $stmt->fetch(PDO::FETCH_ASSOC);
+          return $result['password'];
+     }
+     catch(PDOException $error)  
+     {  
+          $error->getMessage();  
+     } 
+ }
+
+
  ?>  
  <!DOCTYPE html>  
  <html>  
@@ -58,8 +64,8 @@
                 ?>  
                 <h2>Logga in</h2><br />  
                 <form method="post">  
-                     <label>E-post</label>  
-                     <input type="text" name="email" class="form-control" />  
+                     <label>Användarnamn</label>  
+                     <input type="text" name="username" class="form-control" />  
                      <br />  
                      <label>Lösenord</label>  
                      <input type="password" name="password" class="form-control" />  
