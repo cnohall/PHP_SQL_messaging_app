@@ -18,10 +18,8 @@ try
           {  
                $messageInfo = '<h2><span class="badge badge-warning"> Du måste skriva något innan du kan skapa inlägget </span></h2>';  
           } else { 
-               if($_POST['message'] != strip_tags($_POST['message'])) {
-                    $messageInfo = '<h2><span class="badge badge-danger"> Sluta skriva html i chatten! </span></h2>';
-                } else {
-                    $message = $_POST['message'];
+
+                    $message = htmlspecialchars($_POST['message']);
                     $writer = $_SESSION["username"];
                     $timewritten = date('Y-m-d H:i:s');
      
@@ -34,7 +32,7 @@ try
                     } else {
                          $messageInfo = '<h2><span class="badge badge-warning"> Ett problem uppstod när meddelandet skulle skapas </span></h2>';
                     } 
-                }
+                
           } 
 
      }  
